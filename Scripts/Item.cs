@@ -49,7 +49,7 @@ public class Item : MonoBehaviour
 
     public void BuyItem()
     {
-        if(GameManager.coins >= buyPrice){
+        if(GameManager.coins >= buyPrice && PlayerPrefs.GetInt(itemName) == 0){
             GameManager.coins -= buyPrice;
             PlayerPrefs.SetInt("Coins", GameManager.coins);
             int amount = PlayerPrefs.GetInt(itemName);
