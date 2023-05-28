@@ -15,6 +15,17 @@ public class Inventory : MonoBehaviour
         UpdateInventory();
     }
 
+    void Update(){
+        UpdateInventory();
+
+        for(int k = 0; k < slots.Length; k++){
+            if(slots[k].itemName != "" && PlayerPrefs.GetInt(slots[k].itemName) == 0){
+                slots[k].visibleIcon.sprite = null;
+                equipBttn[k].SetActive(false);
+            }
+        }
+    }
+
     public void UpdateInventory(){
         for(int i = 0; i < allItems.Length; i++){
             if(PlayerPrefs.GetInt(allItems[i].itemName) > 0){
@@ -36,10 +47,6 @@ public class Inventory : MonoBehaviour
                     }else if(slots[k].itemName == allItems[i].itemName){
                         break;
                     }                    
-
-                    if(slots[k].itemName != "" && PlayerPrefs.GetInt(slots[k].itemName) == 0){
-                        slots[k].visibleIcon.sprite = null;
-                    }
                 }
             }
         }
