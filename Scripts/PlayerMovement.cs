@@ -28,18 +28,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, vertical);
         playerTransform.position += movement * speed * Time.deltaTime;
 
-        if(horizontal != 0 || vertical != 0){
+        if (horizontal != 0 || vertical != 0)
+        {
             playerAnim.SetBool("Moving", true);
-            
-            if (horizontal < 0f)
+                    
+            if (horizontal < 0f && playerTransform.localScale.x > 0f)
             {
-                playerSprite.flipX = true;
+                playerTransform.localScale = new Vector3(-1f, playerTransform.localScale.y, playerTransform.localScale.z);
             }
-            else if (horizontal > 0f)
+            else if (horizontal > 0f && playerTransform.localScale.x < 0f)
             {
-                playerSprite.flipX = false;
+                playerTransform.localScale = new Vector3(1f, playerTransform.localScale.y, playerTransform.localScale.z);
             }
-
         }else{
             playerAnim.SetBool("Moving", false);
         }
