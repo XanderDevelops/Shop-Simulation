@@ -27,9 +27,9 @@ public class Item : MonoBehaviour
         {
             buyButton.onClick.AddListener(BuyItem);
             if(!consumable && purchased > 0){
-                buyButton.gameObject.SetActive(false);
+                buyButton.interactable = false;
             }else{
-                buyButton.gameObject.SetActive(true);
+                buyButton.interactable = true;
             }
         }
         else
@@ -45,11 +45,17 @@ public class Item : MonoBehaviour
     void Update(){
         if(detailsText != null)
         detailsText.text = itemName + "\n" + buyPrice.ToString() + " coins";
+
+        if(PlayerPrefs.GetInt(itemName) > 0 && !consumable && buyButton.name == "Buy"){
+                buyButton.interactable = false;
+            }else if(buyButton.name == "Buy"){
+                buyButton.interactable = true;
+            }
     }
 
     public void BuyItem()
     {
-        if(GameManager.coins >= buyPrice && PlayerPrefs.GetInt(itemName) == 0){
+        if(GameManager.coins >= buyPrice){
             GameManager.coins -= buyPrice;
             PlayerPrefs.SetInt("Coins", GameManager.coins);
             int amount = PlayerPrefs.GetInt(itemName);
@@ -57,7 +63,7 @@ public class Item : MonoBehaviour
             purchased = PlayerPrefs.GetInt(itemName);
             Debug.Log(itemName + ": " + PlayerPrefs.GetInt(itemName));
             if(!consumable && purchased > 0){
-                buyButton.gameObject.SetActive(false);
+                buyButton.interactable = false;
             }
             inventory.UpdateInventory();
         }
@@ -73,7 +79,7 @@ public class Item : MonoBehaviour
             purchased = PlayerPrefs.GetInt(itemName);
             Debug.Log(itemName + ": " + PlayerPrefs.GetInt(itemName));
             if(purchased == 0 && buyButton.name == "Buy"){
-                buyButton.gameObject.SetActive(true);
+                buyButton.interactable = true;
             }
             inventory.UpdateInventory();
         }

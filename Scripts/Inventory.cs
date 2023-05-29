@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Inventory : MonoBehaviour
     public Item[] slots;
     public GameObject[] equipBttn;
     public GameObject[] wearables;
+    public TextMeshProUGUI[] amounts;
 
     void Start(){
         UpdateInventory();
@@ -20,8 +22,28 @@ public class Inventory : MonoBehaviour
 
         for(int k = 0; k < slots.Length; k++){
             if(slots[k].itemName != "" && PlayerPrefs.GetInt(slots[k].itemName) == 0){
-                slots[k].visibleIcon.sprite = null;
+                slots[k].visibleIcon.gameObject.SetActive(false);
                 equipBttn[k].SetActive(false);
+                amounts[k].gameObject.SetActive(false);
+            }else if(slots[k].itemName != "" && PlayerPrefs.GetInt(slots[k].itemName) != 0){
+                slots[k].visibleIcon.gameObject.SetActive(true);
+                amounts[k].gameObject.SetActive(true);
+                amounts[k].text = PlayerPrefs.GetInt(slots[k].itemName).ToString();
+            }else if(slots[k].itemName == "" && PlayerPrefs.GetInt(slots[k].itemName) == 0){
+                slots[k].visibleIcon.gameObject.SetActive(false);
+                amounts[k].gameObject.SetActive(false);
+            }
+            
+        }
+
+        for (int j = 0; j < wearables.Length; j++)
+        {
+            for (int i = 0; i < allItems.Length; i++)
+            {
+                if (wearables[j].tag == allItems[i].itemName && PlayerPrefs.GetInt(allItems[i].itemName) == 0)
+                {
+                    wearables[j].SetActive(false);
+                }
             }
         }
     }
